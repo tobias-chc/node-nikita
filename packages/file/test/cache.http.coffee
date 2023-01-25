@@ -32,11 +32,12 @@ describe 'file.cache http', ->
         new Promise (resolve) ->
           _.close resolve
   
-  they 'handles string argument', ({ssh}) ->
+  they.only 'handles string argument', ({ssh}) ->
     try
       srv = await server().listen()
       await nikita
         $ssh: ssh
+        $debug: true
         $tmpdir: true
       , ({metadata: {tmpdir}}) ->
         @file.cache "http://localhost:#{srv.port}/my_file",

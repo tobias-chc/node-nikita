@@ -84,7 +84,7 @@ describe 'lxc.init', ->
   
   describe 'container', ->
   
-    they.only 'Init a new container', ({ssh}) ->
+    they 'Init a new container', ({ssh}) ->
       nikita
         $ssh: ssh
         $debug: true
