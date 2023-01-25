@@ -26,6 +26,11 @@ jobs:
         if ! snap info lxd | grep "installed"; then
           sudo snap install lxd --channel=5.0/stable
         fi
+    - name: Initialise LXD
+      shell: bash
+      run: |
+        sudo lxd waitready
+        sudo lxd init --auto
     - name: Set up permissions for socket
       shell: bash
       run: |
@@ -62,6 +67,11 @@ jobs:
         if ! snap info lxd | grep "installed"; then
           sudo snap install lxd --channel=5.0/stable
         fi
+    - name: Initialise LXD
+      shell: bash
+      run: |
+        sudo lxd waitready
+        sudo lxd init --auto
     - name: Set up permissions for socket
       shell: bash
       run: |
