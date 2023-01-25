@@ -26,6 +26,11 @@ jobs:
         if ! snap info lxd | grep "installed"; then
           sudo snap install lxd --channel=5.0/stable
         fi
+    - name: Set up permissions for socket
+      shell: bash
+      run: |
+        sudo snap set lxd daemon.group=adm
+        sudo snap restart lxd
     - name: Configure firewall
       shell: bash
       run: |
@@ -57,6 +62,11 @@ jobs:
         if ! snap info lxd | grep "installed"; then
           sudo snap install lxd --channel=5.0/stable
         fi
+    - name: Set up permissions for socket
+      shell: bash
+      run: |
+        sudo snap set lxd daemon.group=adm
+        sudo snap restart lxd
     - name: Configure firewall
       shell: bash
       run: |
