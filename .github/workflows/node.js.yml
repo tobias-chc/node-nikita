@@ -14,12 +14,26 @@ jobs:
       matrix:
         node-version: [14.x, 16.x]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: sudo apt install -y openssh-server && sudo systemctl start sshd
+    - name: Install LXD
+      if: "${{ github.event.inputs.channel == '' }}"
+      shell: bash
+      run: |
+        if ! snap info lxd | grep "installed"; then
+          sudo snap install lxd --channel=5.0/stable
+        fi
+    - name: Configure firewall
+      shell: bash
+      run: |
+        set -x
+        sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
+        sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    - run: sudo apt install -y openssh-server openssl && sudo systemctl start sshd
+    - run: sudo apt install -y openjdk-8-jre-headless
     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
     - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
     - run: yarn --frozen-lockfile
@@ -43,9 +57,9 @@ jobs:
   www:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: 14.x
     - run: yarn --frozen-lockfile
