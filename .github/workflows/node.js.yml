@@ -12,36 +12,13 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install LXD
-      if: "${{ github.event.inputs.channel == '' }}"
-      shell: bash
-      run: |
-        if ! snap info lxd | grep "installed"; then
-          sudo snap install lxd --channel=5.0/stable
-        fi
-    - name: Initialise LXD
-      shell: bash
-      run: |
-        sudo lxd waitready
-        sudo lxd init --auto
-    - name: Set up permissions for socket
-      shell: bash
-      run: |
-        sudo snap set lxd daemon.group=adm
-        sudo snap restart lxd
-    - name: Configure firewall
-      shell: bash
-      run: |
-        set -x
-        sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
-        sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     - run: sudo apt install -y openssh-server openssl && sudo systemctl start sshd
     - run: sudo apt install -y openjdk-8-jre-headless
     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
@@ -53,7 +30,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}

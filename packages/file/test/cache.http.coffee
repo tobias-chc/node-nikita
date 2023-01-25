@@ -37,7 +37,6 @@ describe 'file.cache http', ->
       srv = await server().listen()
       await nikita
         $ssh: ssh
-        $debug: true
         $tmpdir: true
       , ({metadata: {tmpdir}}) ->
         @file.cache "http://localhost:#{srv.port}/my_file",
