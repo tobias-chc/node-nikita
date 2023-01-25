@@ -32,7 +32,7 @@ describe 'file.cache http', ->
         new Promise (resolve) ->
           _.close resolve
   
-  they.only 'handles string argument', ({ssh}) ->
+  they 'handles string argument', ({ssh}) ->
     try
       srv = await server().listen()
       await nikita
