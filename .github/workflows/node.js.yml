@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [14.x, 16.x]
@@ -54,22 +54,22 @@ jobs:
   #   - run: yarn run publish
   #     env:
   #       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  www:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: 14.x
-    - run: yarn --frozen-lockfile
-    - run: cd docs/website && yarn install && yarn build
-    - run: echo 'nikita.js.org' > docs/website/public/CNAME
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.0.0-beta-01
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\
-        # REPOSITORY_NAME: adaltas/node-nikita-docs
-        BRANCH: gh-pages # The branch the action should deploy to.
-        FOLDER: docs/website/public # The folder the action should deploy.
-        CLEAN: true # Automatically remove deleted files from the deploy branch
+  # www:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - uses: actions/checkout@v3
+  #  - name: Use Node.js ${{ matrix.node-version }}
+  #    uses: actions/setup-node@v3
+  #    with:
+  #      node-version: 14.x
+  #  - run: yarn --frozen-lockfile
+  #  - run: cd docs/website && yarn install && yarn build
+  #  - run: echo 'nikita.js.org' > docs/website/public/CNAME
+  #  - name: Deploy
+  #    uses: JamesIves/github-pages-deploy-action@4.0.0-beta-01
+  #    with:
+  #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\
+  #      # REPOSITORY_NAME: adaltas/node-nikita-docs
+  #      BRANCH: gh-pages # The branch the action should deploy to.
+  #      FOLDER: docs/website/public # The folder the action should deploy.
+  #      CLEAN: true # Automatically remove deleted files from the deploy branch
