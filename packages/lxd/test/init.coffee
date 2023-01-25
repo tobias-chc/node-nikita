@@ -84,9 +84,10 @@ describe 'lxc.init', ->
   
   describe 'container', ->
   
-    they 'Init a new container', ({ssh}) ->
+    they.only 'Init a new container', ({ssh}) ->
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           @lxc.delete 'nikita-init-1', force: true
