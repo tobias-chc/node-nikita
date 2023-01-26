@@ -230,7 +230,6 @@ describe 'log.cli', ->
         ]
 
     they 'option colors', ({ssh}) ->
-<<<<<<< HEAD
       return this.skip() unless process.stdout.isTTY
       data = []
       host = ssh?.host or 'local'
@@ -249,28 +248,6 @@ describe 'log.cli', ->
           "\u001b[32m#{host}   b   ✔\u001b[39m\n"
           "\u001b[31m#{host}   c   ✘\u001b[39m\n"
         ]
-=======
-      if process.stdout.isTTY
-        data = []
-        host = ssh?.host or 'local'
-        nikita
-          $ssh: ssh
-        .log.cli
-          colors: true
-          stream: new MyWritable data
-          time: false
-        .call $header: 'a', -> false
-        .call $header: 'b', -> true
-        .call $header: 'c', $relax: true, -> throw Error 'ok'
-        .call ->
-          data.should.eql [
-            "\u001b[36m\u001b[2m#{host}   a   -\u001b[22m\u001b[39m\n"
-            "\u001b[32m#{host}   b   ✔\u001b[39m\n"
-            "\u001b[31m#{host}   c   ✘\u001b[39m\n"
-          ]
-      else
-        this.skip()
->>>>>>> 41c9d9e0f (test(log): check TTY before testing colors)
     
     they 'option time', ({ssh}) ->
       data = []
