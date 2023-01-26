@@ -39,6 +39,7 @@ describe 'lxc.wait.ready', ->
       @timeout -1
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         await registry.register 'clean', ->
           await @lxc.delete 
@@ -64,6 +65,7 @@ describe 'lxc.wait.ready', ->
       @timeout -1
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         await registry.register 'clean', ->
           await @lxc.delete 

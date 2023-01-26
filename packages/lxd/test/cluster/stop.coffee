@@ -25,6 +25,7 @@ describe 'lxc.cluster.stop', ->
           nic: eth0: name: 'eth0', nictype: 'bridged', parent: 'nktlxdpub'
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       await registry.register ['clean'], ->
         await @lxc.cluster.delete {...cluster, force: true}

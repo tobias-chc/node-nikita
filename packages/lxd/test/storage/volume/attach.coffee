@@ -52,6 +52,7 @@ describe 'lxc.storage.volume.attach', ->
     they 'should attach a block volume on a vm', ({ssh}) ->
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           await @lxc.delete

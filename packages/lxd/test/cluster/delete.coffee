@@ -12,6 +12,7 @@ describe 'lxc.cluster.delete', ->
     @timeout -1 # yum install take a lot of time
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       cluster =
         networks:
@@ -77,6 +78,7 @@ describe 'lxc.cluster.delete', ->
       @timeout -1 # yum install take a lot of time
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         cluster =
           networks:

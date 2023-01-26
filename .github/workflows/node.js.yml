@@ -60,6 +60,10 @@ jobs:
         set -x
         sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
         sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        sudo iptables -I DOCKER-USER -i nktlxdpub -j ACCEPT
+        sudo iptables -I DOCKER-USER -o nktlxdpub -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        sudo iptables -I DOCKER-USER -i nktlxdprv -j ACCEPT
+        sudo iptables -I DOCKER-USER -o nktlxdprv -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     - run: sudo apt install -y openssh-server openssl && sudo systemctl start sshd
     - run: sudo apt install -y openjdk-8-jre-headless
     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''

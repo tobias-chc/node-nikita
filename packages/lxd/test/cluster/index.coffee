@@ -50,6 +50,7 @@ describe 'lxc.cluster', ->
     @timeout -1 # yum/apk install take a lot of time
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       cluster =
         networks:
@@ -109,6 +110,7 @@ describe 'lxc.cluster', ->
     @timeout -1
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       await registry.register 'clean', ->
         await @lxc.delete
@@ -155,6 +157,7 @@ describe 'lxc.cluster', ->
     @timeout -1
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       await registry.register 'clean', ->
         await @lxc.delete

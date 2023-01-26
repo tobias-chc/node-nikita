@@ -149,6 +149,7 @@ describe 'lxc.init', ->
     they 'Init new VM', ({ssh}) ->
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           @lxc.delete 'nikita-init-vm1', force: true
@@ -163,6 +164,7 @@ describe 'lxc.init', ->
     they 'VM already exist', ({ssh}) ->
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           @lxc.delete 'nikita-init-vm2', force: true

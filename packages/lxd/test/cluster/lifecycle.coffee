@@ -12,6 +12,7 @@ describe 'lxc.cluster.lifecycle', ->
     @timeout -1
     nikita
       $ssh: ssh
+      $debug: true
     , ({registry}) ->
       lifecycle = []
       cluster =
