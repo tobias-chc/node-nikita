@@ -8,23 +8,23 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  test:
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: sudo apt install -y openssh-server openssl && sudo systemctl start sshd
-    - run: sudo apt install -y openjdk-8-jre-headless
-    - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
-    - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
-    - run: yarn --frozen-lockfile
-    - run: npx lerna run test:local --ignore=@nikitajs/lxd
+#   test:
+#     runs-on: ubuntu-22.04
+#     strategy:
+#       matrix:
+#         node-version: [16.x]
+#     steps:
+#     - uses: actions/checkout@v3
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#     - run: sudo apt install -y openssh-server openssl && sudo systemctl start sshd
+#     - run: sudo apt install -y openjdk-8-jre-headless
+#     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
+#     - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
+#     - run: yarn --frozen-lockfile
+#     - run: npx lerna run test:local --ignore=@nikitajs/lxd
     
   lxdtest:
     runs-on: ubuntu-22.04

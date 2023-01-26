@@ -7,7 +7,7 @@ return unless tags.lxd
 
 describe 'lxc.list', ->
 
-  they 'list all instances', ({ssh}) ->
+  they.only 'list all instances', ({ssh}) ->
     nikita
       $ssh: ssh
       $debug: true

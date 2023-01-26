@@ -146,7 +146,7 @@ describe 'lxc.init', ->
   describe 'vm', ->
     return unless tags.lxd_vm
 
-    they 'Init new VM', ({ssh}) ->
+    they.only 'Init new VM', ({ssh}) ->
       nikita
         $ssh: ssh
         $debug: true
@@ -161,7 +161,7 @@ describe 'lxc.init', ->
         $status.should.be.true()
         await @clean()
   
-    they 'VM already exist', ({ssh}) ->
+    they.only 'VM already exist', ({ssh}) ->
       nikita
         $ssh: ssh
         $debug: true

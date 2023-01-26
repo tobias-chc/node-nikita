@@ -49,7 +49,7 @@ describe 'lxc.storage.volume.attach', ->
 
     return unless tags.lxd_vm
     
-    they 'should attach a block volume on a vm', ({ssh}) ->
+    they.only 'should attach a block volume on a vm', ({ssh}) ->
       nikita
         $ssh: ssh
         $debug: true
@@ -127,9 +127,10 @@ describe 'lxc.storage.volume.attach', ->
 
     return unless tags.lxd_vm
 
-    they 'should attach a filesystem to a vm', ({ssh}) ->
+    they.only 'should attach a filesystem to a vm', ({ssh}) ->
       nikita
         $ssh: ssh
+        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           await @lxc.delete

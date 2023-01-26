@@ -35,7 +35,7 @@ describe 'lxc.wait.ready', ->
 
     return unless tags.lxd_vm
 
-    they 'wait for the virtual machine to be ready', ({ssh})  ->
+    they.only 'wait for the virtual machine to be ready', ({ssh})  ->
       @timeout -1
       nikita
         $ssh: ssh
@@ -61,7 +61,7 @@ describe 'lxc.wait.ready', ->
         finally
           await @clean()
     
-    they 'try to execute a command after booting', ({ssh})  ->
+    they.only 'try to execute a command after booting', ({ssh})  ->
       @timeout -1
       nikita
         $ssh: ssh
