@@ -54,6 +54,12 @@ jobs:
       run: |
         sudo snap set lxd daemon.group=adm
         sudo snap restart lxd
+    - name: Configure firewall
+      shell: bash
+      run: |
+        set -x
+        sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
+        sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
     - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
     - run: yarn --frozen-lockfile
