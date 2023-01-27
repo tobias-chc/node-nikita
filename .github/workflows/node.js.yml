@@ -37,23 +37,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install kvm
-      shell: bash
-      run: |
-        kvm-ok
-        sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils -y
-        systemctl enable libvirtd
-        sudo adduser `id -un` libvirtd
-        sudo adduser `id -un` kvm
-        newgrp kvm
-        lsmod | grep -i kvm
-    - name: Virtualisation test
-      shell: bash
-      run: |
-        egrep -c '(vmx|svm)' /proc/cpuinfo
-        cat /sys/hypervisor/properties/capabilities
-        kvm-ok
-        egrep -c ' lm ' /proc/cpuinfo
     - name: Install LXD
       if: "${{ github.event.inputs.channel == '' }}"
       shell: bash

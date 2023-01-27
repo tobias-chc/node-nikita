@@ -7,10 +7,9 @@ return unless tags.lxd
 
 describe 'lxc.list', ->
 
-  they.only 'list all instances', ({ssh}) ->
+  they 'list all instances', ({ssh}) ->
     nikita
       $ssh: ssh
-      $debug: true
     , ({registry}) ->
       registry.register 'clean', ->
         @lxc.delete 'nikita-list-c1', force: true

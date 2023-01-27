@@ -146,10 +146,9 @@ describe 'lxc.init', ->
   describe 'vm', ->
     return unless tags.lxd_vm
 
-    they.only 'Init new VM', ({ssh}) ->
+    they 'Init new VM', ({ssh}) ->
       nikita
         $ssh: ssh
-        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           @lxc.delete 'nikita-init-vm1', force: true
@@ -161,10 +160,9 @@ describe 'lxc.init', ->
         $status.should.be.true()
         await @clean()
   
-    they.only 'VM already exist', ({ssh}) ->
+    they 'VM already exist', ({ssh}) ->
       nikita
         $ssh: ssh
-        $debug: true
       , ({registry}) ->
         registry.register 'clean', ->
           @lxc.delete 'nikita-init-vm2', force: true

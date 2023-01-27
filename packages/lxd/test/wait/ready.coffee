@@ -35,11 +35,10 @@ describe 'lxc.wait.ready', ->
 
     return unless tags.lxd_vm
 
-    they.only 'wait for the virtual machine to be ready', ({ssh})  ->
+    they 'wait for the virtual machine to be ready', ({ssh})  ->
       @timeout -1
       nikita
         $ssh: ssh
-        $debug: true
       , ({registry}) ->
         await registry.register 'clean', ->
           await @lxc.delete 
@@ -61,11 +60,10 @@ describe 'lxc.wait.ready', ->
         finally
           await @clean()
     
-    they.only 'try to execute a command after booting', ({ssh})  ->
+    they 'try to execute a command after booting', ({ssh})  ->
       @timeout -1
       nikita
         $ssh: ssh
-        $debug: true
       , ({registry}) ->
         await registry.register 'clean', ->
           await @lxc.delete 
