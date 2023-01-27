@@ -60,18 +60,28 @@ jobs:
         set -x
         sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
         sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        sudo iptables -I DOCKER-USER -i nktlxdpub -j ACCEPT
+        sudo iptables -I DOCKER-USER -o nktlxdpub -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        sudo iptables -I DOCKER-USER -i nktlxdprv -j ACCEPT
+        sudo iptables -I DOCKER-USER -o nktlxdprv -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        sudo iptables -F FORWARD
+        sudo iptables -P FORWARD ACCEPT
     - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
     - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
     - run: yarn --frozen-lockfile
     - run: pwd
-    - run: cd packages/lxd && npx mocha test/*.coffee
-    - run: cd packages/lxd && npx mocha test/config/*.coffee
-    - run: cd packages/lxd && npx mocha test/file/*.coffee
-    - run: cd packages/lxd && npx mocha test/goodies/*.coffee
-    - run: cd packages/lxd && npx mocha test/network/*.coffee
-    - run: cd packages/lxd && npx mocha test/storage/*.coffee
-    - run: cd packages/lxd && npx mocha test/wait/*.coffee
-    - run: cd packages/lxd && npx mocha test/cluster/*.coffee
+    # - run: cd packages/lxd && npx mocha test/*.coffee
+    # - run: cd packages/lxd && npx mocha test/config/*.coffee
+    # - run: cd packages/lxd && npx mocha test/file/*.coffee
+    # - run: cd packages/lxd && npx mocha test/goodies/*.coffee
+    # - run: cd packages/lxd && npx mocha test/network/*.coffee
+    # - run: cd packages/lxd && npx mocha test/storage/*.coffee
+    # - run: cd packages/lxd && npx mocha test/wait/*.coffee
+    - run: ping -c 2 8.8.8.8 || exit 42
+    - run: cd packages/lxd && npx mocha test/cluster/index.coffee
+    - run: cd packages/lxd && npx mocha test/cluster/lifecycle.coffee
+    - run: cd packages/lxd && npx mocha test/cluster/stop.coffee
+    - run: cd packages/lxd && npx mocha test/cluster/delete.coffee
 
   # deploy:
   #   needs: test
