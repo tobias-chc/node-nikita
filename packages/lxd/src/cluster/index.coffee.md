@@ -232,6 +232,12 @@ containers:
           $header: 'Wait for container to be ready to use'
           container: containerName
           nat: !process.env.CI
+        await @lxc.exec
+          $header: 'Test ping'
+          container: containerName
+          command: """
+          ping -c 2 8.8.8.8
+          """  
         # Openssl is required by the `lxc.file.push` action
         await @lxc.exec
           $header: 'OpenSSL'
