@@ -231,8 +231,7 @@ containers:
         await @lxc.wait.ready 
           $header: 'Wait for container to be ready to use'
           container: containerName
-          nat: true
-          nat_check: 'wget -q google.com'
+          nat: !process.env.CI
         # Openssl is required by the `lxc.file.push` action
         await @lxc.exec
           $header: 'OpenSSL'
