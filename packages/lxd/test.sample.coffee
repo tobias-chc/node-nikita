@@ -2,9 +2,8 @@
 module.exports =
   tags:
     lxd: true
-    lxd_vm: false
-    # lxd_vm: process.platform is 'linux'
-    lxd_prlimit: false
+    lxd_vm: process.platform is 'linux' && !process.env.CI
+    lxd_prlimit: !process.env.CI
   images:
     alpine: 'alpine/3.17'
   config: [
