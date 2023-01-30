@@ -74,8 +74,8 @@ jobs:
     # - run: cd packages/lxd && npx mocha test/wait/*.coffee
     # - run: cd packages/lxd && npx mocha test/cluster/index.coffee
     # - run: cd packages/lxd && npx mocha test/cluster/lifecycle.coffee
-    # - run: cd packages/lxd && npx mocha test/cluster/stop.coffee
     - run: cd packages/lxd && npx mocha test/cluster/delete.coffee
+    - run: cd packages/lxd && npx mocha test/cluster/stop.coffee
 
   # deploy:
   #   needs: test
