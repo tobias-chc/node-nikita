@@ -232,7 +232,7 @@ containers:
           $header: 'Wait for container to be ready to use'
           container: containerName
           nat: true
-          nat_check: 'wget -q google.com' unless !process.env.CI
+          nat_check: 'wget -q google.com || exit 42' unless !process.env.CI
         # Openssl is required by the `lxc.file.push` action
         await @lxc.exec
           $header: 'OpenSSL'
