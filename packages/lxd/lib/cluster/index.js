@@ -298,6 +298,7 @@ handler = async function({config}) {
       // Openssl is required by the `lxc.file.push` action
       await this.lxc.exec({
         $header: 'OpenSSL',
+        $retry: 2,
         container: containerName,
         command: `command -v openssl && exit 42
 if command -v yum >/dev/null 2>&1; then

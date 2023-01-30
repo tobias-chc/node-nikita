@@ -235,6 +235,7 @@ containers:
         # Openssl is required by the `lxc.file.push` action
         await @lxc.exec
           $header: 'OpenSSL'
+          $retry: 2
           container: containerName
           command: """
           command -v openssl && exit 42
