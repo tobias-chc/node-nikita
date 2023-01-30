@@ -226,23 +226,16 @@ containers:
         # Start container
         await @lxc.start
           $header: 'Start'
-          container: containerName
-        # Test wget before downloading
-        await @lxc.exec 
-          $header: 'Test ping again'
-          container: containerName
-          command: """
-          wget -q google.com
-          """        
+          container: containerName      
         # Wait until container is ready
         await @lxc.wait.ready 
           $header: 'Wait for container to be ready to use'
           container: containerName
-          nat: !process.env.CI
+          nat: true
+          nat_check: 'wget -q google.com' unless !process.env.CI
         # Openssl is required by the `lxc.file.push` action
         await @lxc.exec
           $header: 'OpenSSL'
-          $retry: 2
           container: containerName
           command: """
           command -v openssl && exit 42
@@ -259,13 +252,6 @@ containers:
           """
           trap: true
           code: [0, 42]
-        # Test wget after downloading
-        await @lxc.exec 
-          $header: 'Test ping again'
-          container: containerName
-          command: """
-          wget -q google.com
-          """
         # Enable SSH
         if containerConfig.ssh?.enabled
           await @lxc.exec

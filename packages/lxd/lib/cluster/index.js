@@ -288,23 +288,17 @@ handler = async function({config}) {
         $header: 'Start',
         container: containerName
       });
-      // Test wget before downloading
-      await this.lxc.exec({
-        $header: 'Test ping again',
-        container: containerName,
-        command: `wget -q google.com`
-      });
       
       // Wait until container is ready
       await this.lxc.wait.ready({
         $header: 'Wait for container to be ready to use',
         container: containerName,
-        nat: !process.env.CI
+        nat: true,
+        nat_check: !!process.env.CI ? 'wget -q google.com' : void 0
       });
       // Openssl is required by the `lxc.file.push` action
       await this.lxc.exec({
         $header: 'OpenSSL',
-        $retry: 2,
         container: containerName,
         command: `command -v openssl && exit 42
 if command -v yum >/dev/null 2>&1; then
@@ -319,12 +313,6 @@ fi
 command -v openssl`,
         trap: true,
         code: [0, 42]
-      });
-      // Test wget after downloading
-      await this.lxc.exec({
-        $header: 'Test ping again',
-        container: containerName,
-        command: `wget -q google.com`
       });
       // Enable SSH
       if ((ref6 = containerConfig.ssh) != null ? ref6.enabled : void 0) {

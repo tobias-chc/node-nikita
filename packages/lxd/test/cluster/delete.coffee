@@ -61,7 +61,6 @@ describe 'lxc.cluster.delete', ->
             nktlxdpub:
               'ipv4.address': '10.10.40.1/24'
               'ipv4.nat': true
-              'ipv4.firewall': false
               'ipv6.address': 'none'
           containers:
             'nikita-cluster-del-1':
@@ -71,14 +70,6 @@ describe 'lxc.cluster.delete', ->
               image: "images:#{images.alpine}"
               nic: eth0: name: 'eth0', nictype: 'bridged', parent: 'nktlxdpub'
         await @lxc.cluster cluster
-        # console.log 'is working'
-        # await @execute
-        #   $header: 'set iptables when running'
-        #   command: """
-        #   sudo lxc network set nktlxdpub ipv4.firewall false
-        #   sudo iptables -I DOCKER-USER -i nktlxdpub -j ACCEPT
-        #   sudo iptables -I DOCKER-USER -o nktlxdpub -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-        #   """
         await @wait time: 200
         await @lxc.cluster.delete cluster
         .should.be.rejectedWith /^NIKITA_EXECUTE_EXIT_CODE_INVALID:/
