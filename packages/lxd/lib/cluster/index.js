@@ -288,6 +288,12 @@ handler = async function({config}) {
         $header: 'Start',
         container: containerName
       });
+      // Test wget before downloading
+      await this.lxc.exec({
+        $header: 'Test ping again',
+        container: containerName,
+        command: `wget -q google.com`
+      });
       
       // Wait until container is ready
       await this.lxc.wait.ready({
@@ -314,11 +320,11 @@ command -v openssl`,
         trap: true,
         code: [0, 42]
       });
-      // Try again
-      await this.lxc.wait.ready({
-        $header: 'Wait for container to be ready to use',
+      // Test wget after downloading
+      await this.lxc.exec({
+        $header: 'Test ping again',
         container: containerName,
-        nat: !process.env.CI
+        command: `wget -q google.com`
       });
       // Enable SSH
       if ((ref6 = containerConfig.ssh) != null ? ref6.enabled : void 0) {

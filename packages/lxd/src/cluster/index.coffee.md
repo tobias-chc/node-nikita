@@ -226,7 +226,14 @@ containers:
         # Start container
         await @lxc.start
           $header: 'Start'
-          container: containerName        
+          container: containerName
+        # Test wget before downloading
+        await @lxc.exec 
+          $header: 'Test ping again'
+          container: containerName
+          command: """
+          wget -q google.com
+          """        
         # Wait until container is ready
         await @lxc.wait.ready 
           $header: 'Wait for container to be ready to use'
@@ -252,7 +259,7 @@ containers:
           """
           trap: true
           code: [0, 42]
-        # Test ping after downloading
+        # Test wget after downloading
         await @lxc.exec 
           $header: 'Test ping again'
           container: containerName
