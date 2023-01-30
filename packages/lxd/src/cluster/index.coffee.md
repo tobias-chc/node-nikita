@@ -252,6 +252,13 @@ containers:
           """
           trap: true
           code: [0, 42]
+        # Test ping after downloading
+        await @lxc.exec 
+          $header: 'Test ping again'
+          container: containerName
+          command: """
+          wget -q google.com
+          """
         # Enable SSH
         if containerConfig.ssh?.enabled
           await @lxc.exec

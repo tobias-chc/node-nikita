@@ -314,6 +314,12 @@ command -v openssl`,
         trap: true,
         code: [0, 42]
       });
+      // Try again
+      await this.lxc.wait.ready({
+        $header: 'Wait for container to be ready to use',
+        container: containerName,
+        nat: !process.env.CI
+      });
       // Enable SSH
       if ((ref6 = containerConfig.ssh) != null ? ref6.enabled : void 0) {
         await this.lxc.exec({
