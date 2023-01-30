@@ -54,17 +54,6 @@ jobs:
       run: |
         sudo snap set lxd daemon.group=adm
         sudo snap restart lxd
-    # - name: Networking checks
-    #   shell: bash
-    #   run: |
-    #     lxc profile show default
-    #     lxc network list
-    - name: Firewall attemps
-      shell: bash
-      run: |
-        sudo ufw allow in on nktlxdpub
-        sudo ufw route allow in on nktlxdpub
-        sudo ufw route allow out on nktlxdpub
     - name: Configure firewall
       shell: bash
       run: |
