@@ -19,6 +19,7 @@ describe 'lxc.cluster.delete', ->
           nktlxdpub:
             'ipv4.address': '10.10.40.1/24'
             'ipv4.nat': true
+            'ipv4.firewall': false
             'ipv6.address': 'none'
         containers:
           'nikita-cluster-del-1':
