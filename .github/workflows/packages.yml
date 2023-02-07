@@ -27,17 +27,19 @@ jobs:
     needs: [list-packages]
     runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false # avoid cancel all in-progress jobs if any fails
       matrix:
-        node-version: [16.x]
+        node-version: [16.x] 
         package: ${{ fromJson(needs.list-packages.outputs.packages)}}
-        exclude:
-          - package: nikita
+        exclude: 
+          - package: nikita # scope lerna flag not working with: @nikitajs/nikita
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
     - name: Setup SSH
       run: | 
         ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
@@ -47,7 +49,7 @@ jobs:
         script=.github/CI_DEPENDENCIES/${{ matrix.package }}.sh
         test -f $script && bash $script || echo "No external dependencies script available"
     - name: Install package dependencies
-      run: yarn --frozen-lockfile
+      run: yarn install
     - name: Test
       run: npx lerna run test:local --scope=@nikitajs/${{ matrix.package }}
     
