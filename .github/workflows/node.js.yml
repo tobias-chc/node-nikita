@@ -4,7 +4,7 @@
 name: Nikita CI
 on:
   push:
-    branches: [ master ]
+    branches: [ xxxx ]
   pull_request:
     branches: [ master ]
 jobs:

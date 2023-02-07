@@ -1,0 +1,47 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Nikita CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env: 
+  packages: $(cd ./packages | tree -J -d -L 1 | jq -c '.[0].contents | map(.name)')
+  
+jobs:
+  list-packages:
+    name: List Packages
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.get-folders.outputs.packages }}
+    steps:
+    - uses: actions/checkout@v3
+    - id: get-folders
+      working-directory: packages
+      shell: bash
+      run: |
+        packages=$(tree -J -d -L 1 | jq -c '.[0].contents | map(.name)')
+        echo "packages=$packages" >> $GITHUB_OUTPUT
+  test:
+    name: Matrix Test
+    needs: [list-packages]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [16.x]
+        package: ${{ fromJson(needs.list-packages.outputs.packages)}}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      shell: bash
+      run: sudo ./.github/CI_DEPENDENCIES/${{ matrix.package }}.sh
+    - run: yarn --frozen-lockfile
+    - run: npx lerna run test:local --scope=@nikitajs/${{ matrix.package }}
+    
