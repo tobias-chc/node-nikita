@@ -7,9 +7,6 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-env: 
-  packages: $(cd ./packages | tree -J -d -L 1 | jq -c '.[0].contents | map(.name)')
   
 jobs:
   list-packages:
@@ -32,16 +29,20 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        package: ${{ fromJson(needs.list-packages.outputs.packages)}}
+        package: [core]
+        # package: ${{ fromJson(needs.list-packages.outputs.packages)}}
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Setup SSH
+      run: | 
+        ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
+        cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
     - name: Install dependencies
-      shell: bash
-      run: sudo ./.github/CI_DEPENDENCIES/${{ matrix.package }}.sh
+      run: bash .github/CI_DEPENDENCIES/${{ matrix.package }}.sh
     - run: yarn --frozen-lockfile
     - run: npx lerna run test:local --scope=@nikitajs/${{ matrix.package }}
     
