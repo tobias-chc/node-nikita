@@ -29,7 +29,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        package: [core]
+        package: [core, db]
         # package: ${{ fromJson(needs.list-packages.outputs.packages)}}
     steps:
     - uses: actions/checkout@v3
@@ -42,7 +42,9 @@ jobs:
         ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
         cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
     - name: Install dependencies
-      run: bash .github/CI_DEPENDENCIES/${{ matrix.package }}.sh
+      run: |
+        script=.github/CI_DEPENDENCIES/${{ matrix.package }}.sh
+        test -f script && bash script || echo "No dependency script available"
     - run: yarn --frozen-lockfile
     - run: npx lerna run test:local --scope=@nikitajs/${{ matrix.package }}
     
