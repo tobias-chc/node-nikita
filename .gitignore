@@ -9,8 +9,8 @@ node_modules
 !.npmignore
 !.husky
 lerna-debug.log
-yarn.lock
+#yarn.lock
 yarn-error.log
-package-lock.json
+#package-lock.json
 /packages/*/test.coffee
 !/packages/*/test.coffee.sample
