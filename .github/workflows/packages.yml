@@ -29,8 +29,8 @@ jobs:
     strategy:
       fail-fast: false # avoid cancel all in-progress jobs if any fails
       matrix:
-        node-version: [16.x] 
-        package: [java]
+        node-version: [18.x] 
+        package: [lxd]
         exclude: 
           - package: nikita # scope lerna flag not working with: @nikitajs/nikita
     steps:
